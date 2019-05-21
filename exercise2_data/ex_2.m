@@ -1,6 +1,6 @@
 data = mRFX;
-joint = 'Ankle'; %'Hip', 'Knee' or 'Ankle'
-muscles = {'GAS', 'TA', 'SOL'}; %{'HF', 'GLU'} for Hip, {'HAM', 'VAS'} for Knee, {'GAS', 'TA', 'SOL'} for Ankle -> create a dictionnary
+joint = 'Hip'; %'Hip', 'Knee' or 'Ankle'
+muscles = {'HF', 'GLU'} ; %{'HF', 'GLU'} for Hip, {'HAM', 'VAS'} for Knee, {'GAS', 'TA', 'SOL'} for Ankle -> create a dictionnary
 side = 'R'; %'R' or 'L'
 
 % gait cycles
@@ -44,9 +44,10 @@ for cycle=1:(nCycles)
     angleStride(cycle,:) = interp1(x,(angle(FS(cycle):(FS(cycle+1)-1))),xq);
     torqueStride(cycle,:) = interp1(x,(torque(FS(cycle):(FS(cycle+1)-1))),xq);
 end 
+angleStride = -angleStride+pi;
 
-if strcmp(joint, 'Ankle')
-    
+% plots
+if strcmp(joint, 'Ankle')  
 figure()
 subplot(2,3,1);
 plot(xq, mean(muscle1Stride))
@@ -78,8 +79,7 @@ xlabel('Gait Cycle [% of stride]')
 ylabel('Torque [Nm]')
 title(horzcat(joint, ' torque'))
 
-else 
-    
+else  
 figure()
 subplot(2,2,1);
 plot(xq, mean(muscle1Stride))
